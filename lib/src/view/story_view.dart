@@ -1,8 +1,8 @@
 import 'dart:async';
 
 import 'package:advstory/advstory.dart';
-import 'package:advstory/src/view/inherited_widgets/data_provider.dart';
 import 'package:advstory/src/view/content_view.dart';
+import 'package:advstory/src/view/inherited_widgets/data_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
@@ -76,8 +76,7 @@ class _StoryViewState extends State<StoryView> {
                 return const SizedBox();
               }
 
-              final ValueNotifier<Widget> content =
-                  ValueNotifier(_provider!.style());
+              final ValueNotifier<Widget> content = ValueNotifier(_provider!.style());
 
               () async {
                 final story = await _provider!.buildHelper.buildStory(index);
@@ -93,7 +92,11 @@ class _StoryViewState extends State<StoryView> {
                 builder: (context, value, child) => value,
               );
             },
-            onPageChanged: _handlePageChange,
+            onPageChanged: !_provider!.hasTrays
+                ? (_) {
+                    if (Navigator.canPop(context)) Navigator.pop(context);
+                  }
+                : _handlePageChange,
           ),
         ),
       ),
@@ -105,7 +108,9 @@ class _StoryViewState extends State<StoryView> {
     if (index == _provider!.controller.storyCount) {
       !_provider!.hasTrays
           ? _provider!.controller.positionNotifier.shouldShowView.value = false
-          : Navigator.of(context).pop();
+          : (Navigator.of(context).canPop())
+              ? Navigator.of(context).pop()
+              : null;
     } else {
       _provider!.controller.handleStoryChange(index);
     }
@@ -141,8 +146,7 @@ class _StoryViewState extends State<StoryView> {
   void _callInterceptor(double delta) {
     final cont = _provider!.controller;
 
-    if (cont.storyController!.page!.round() == cont.storyCount - 1 &&
-        delta < 0) {
+    if (cont.storyController!.page!.round() == cont.storyCount - 1 && delta < 0) {
       _event = StoryEvent.close;
     } else {
       _event = delta < 0 ? StoryEvent.nextStory : StoryEvent.previousStory;
@@ -160,8 +164,7 @@ class _StoryViewState extends State<StoryView> {
 
       final addition = _delta < 0 ? 1 : -1;
       final contPage = cont.page!.round();
-      final page =
-          _delta.abs() < width * .5 && bound ? contPage + addition : contPage;
+      final page = _delta.abs() < width * .5 && bound ? contPage + addition : contPage;
 
       _isAnimating = true;
       const duration = Duration(milliseconds: 300);

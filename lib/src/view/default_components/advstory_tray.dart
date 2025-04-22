@@ -1,6 +1,7 @@
 import 'package:advstory/advstory.dart';
 import 'package:advstory/src/util/animated_border_painter.dart';
 import 'package:advstory/src/view/components/shimmer.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 
 /// A highly customizable animated story tray.
@@ -204,30 +205,35 @@ class _AdvStoryTrayState extends AnimatedTrayState<AdvStoryTray> with TickerProv
                   borderRadius: BorderRadius.circular(
                     widget.borderRadius - (widget.strokeWidth + widget.gapSize),
                   ),
-                  child: Image.network(
-                    widget.url,
+                  child: CachedNetworkImage(
+                    imageUrl: widget.url,
                     width: widget.size.width - (widget.gapSize + widget.strokeWidth) * 2,
                     height: widget.size.height - (widget.gapSize + widget.strokeWidth) * 2,
                     fit: BoxFit.cover,
-                    frameBuilder: (context, child, frame, _) {
-                      return frame != null
-                          ? TweenAnimationBuilder<double>(
-                              tween: Tween<double>(begin: .1, end: 1),
-                              curve: Curves.ease,
-                              duration: const Duration(milliseconds: 300),
-                              builder: (BuildContext context, double opacity, _) {
-                                return Opacity(
-                                  opacity: opacity,
-                                  child: child,
-                                );
-                              },
-                            )
-                          : Shimmer(style: widget.shimmerStyle);
+                    placeholder: (context, url) => Shimmer(style: widget.shimmerStyle),
+                    errorWidget: (context, url, error) => widget.errorWidget ?? const Icon(Icons.error),
+                    imageBuilder: (context, imageProvider) {
+                      return TweenAnimationBuilder<double>(
+                        tween: Tween<double>(begin: 0.1, end: 1),
+                        duration: const Duration(milliseconds: 300),
+                        curve: Curves.ease,
+                        builder: (context, opacity, child) {
+                          return Opacity(
+                            opacity: opacity,
+                            child: Container(
+                              decoration: BoxDecoration(
+                                image: DecorationImage(
+                                  image: imageProvider,
+                                  fit: BoxFit.cover,
+                                ),
+                              ),
+                            ),
+                          );
+                        },
+                      );
                     },
-                    errorBuilder: (_, __, ___) {
-                      return widget.errorWidget ??const Icon(Icons.error);
-                    },
-                  ),
+                  )
+                  ,
                 ),
               ),
               if (widget.showAddChild)

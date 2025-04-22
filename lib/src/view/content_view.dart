@@ -154,7 +154,7 @@ class ContentViewState extends State<ContentView> with AutomaticKeepAliveClientM
     if (interception != null) {
       interception();
     } else {
-      !_provider!.hasTrays ? _provider!.controller.positionNotifier.shouldShowView.value = false : Navigator.of(context).pop();
+      /*!_provider!.hasTrays ? _provider!.controller.positionNotifier.shouldShowView.value = false :*/ Navigator.of(context).pop();
     }
   }
 
