@@ -211,7 +211,10 @@ class _AdvStoryTrayState extends AnimatedTrayState<AdvStoryTray> with TickerProv
                     height: widget.size.height - (widget.gapSize + widget.strokeWidth) * 2,
                     fit: BoxFit.cover,
                     placeholder: (context, url) => Shimmer(style: widget.shimmerStyle),
-                    errorWidget: (context, url, error) => widget.errorWidget ?? const Icon(Icons.error),
+                    errorWidget: (context, url, error) => SizedBox(
+                      width: widget.size.width - (widget.gapSize + widget.strokeWidth) * 2,
+                      height: widget.size.height - (widget.gapSize + widget.strokeWidth) * 2,
+                      child: widget.errorWidget ?? const Icon(Icons.error)),
                     imageBuilder: (context, imageProvider) {
                       return TweenAnimationBuilder<double>(
                         tween: Tween<double>(begin: 0.1, end: 1),
