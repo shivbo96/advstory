@@ -8,8 +8,8 @@ class LoadingIndicator extends StatefulWidget {
   /// are loading.
   const LoadingIndicator({
     required this.style,
-    Key? key,
-  }) : super(key: key);
+    super.key,
+  });
 
   /// Style for the loading indicator.
   final LoadingStyle style;
@@ -18,8 +18,7 @@ class LoadingIndicator extends StatefulWidget {
   State<LoadingIndicator> createState() => _LoadingIndicatorState();
 }
 
-class _LoadingIndicatorState extends State<LoadingIndicator>
-    with TickerProviderStateMixin {
+class _LoadingIndicatorState extends State<LoadingIndicator> with TickerProviderStateMixin {
   late final AnimationController _controller;
   late Color? _bg = widget.style.backgroundColor;
 

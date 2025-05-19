@@ -20,24 +20,17 @@ class ImageContent extends ManagedContent {
   /// - `errorBuilder`: Builder to create error view to show when media couldn't
   /// loaded in [timeout].
   const ImageContent({
-    required String url,
+    required super.url,
     this.duration = const Duration(seconds: 10),
-    Map<String, String>? requestHeaders,
-    String? cacheKey,
-    Widget? header,
-    Widget? footer,
-    Duration? timeout,
+    super.requestHeaders,
+    super.cacheKey,
+    super.header,
+    super.footer,
+    super.timeout,
     Widget Function()? errorBuilder,
-    Key? key,
+    super.key,
   }) : super(
-          url: url,
-          cacheKey: cacheKey,
-          requestHeaders: requestHeaders,
-          header: header,
-          footer: footer,
-          timeout: timeout,
           errorBuiler: errorBuilder,
-          key: key,
         );
 
   /// Skip duration of the content.

@@ -36,7 +36,7 @@ class _VideoContentState extends StoryContentState<VideoContent> {
       );
 
       if (!mounted) return;
-      print('file=${file.path}');
+      debugPrint('file=${file.path}');
       final isValid = await _isProbablyPlayable(file);
       if (!isValid) {
         throw Exception('Invalid video file detected');
@@ -53,7 +53,7 @@ class _VideoContentState extends StoryContentState<VideoContent> {
         markReady(duration: controller.value.duration);
       });
     } catch (e) {
-      print('VideoContent Error: $e');
+      debugPrint('VideoContent Error: $e');
       if (mounted) {
         setState(() {
           _hasError = true;

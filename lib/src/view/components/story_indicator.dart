@@ -14,16 +14,15 @@ class StoryIndicator extends StatelessWidget {
     required this.activeIndicatorIndex,
     required this.controller,
     required this.style,
-    Key? key,
-  }) : super(key: key);
+    super.key,
+  });
 
   StoryIndicator.placeholder({
     required this.count,
     required this.style,
-    Key? key,
+    super.key,
   })  : activeIndicatorIndex = -1,
-        controller = null,
-        super(key: key);
+        controller = null;
 
   /// Indicator progress controller.
   final AnimationController? controller;

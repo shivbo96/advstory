@@ -1,4 +1,5 @@
 import 'dart:developer';
+import 'dart:io';
 import 'dart:math' as math;
 import 'dart:ui';
 
@@ -46,7 +47,9 @@ class ContentViewState extends State<ContentView> with AutomaticKeepAliveClientM
   @override
   void didChangeDependencies() {
     _provider ??= DataProvider.of(context)!;
-    final initialPage = _provider!.positionNotifier.initialPosition.story == widget.storyIndex ? _provider!.positionNotifier.content : 0;
+    final initialPage = _provider!.positionNotifier.initialPosition.story == widget.storyIndex
+        ? _provider!.positionNotifier.content
+        : 0;
     _pageController ??= ExtendedPageController(
       itemCount: widget.story.contentCount,
       initialPage: initialPage,
@@ -154,7 +157,9 @@ class ContentViewState extends State<ContentView> with AutomaticKeepAliveClientM
     if (interception != null) {
       interception();
     } else {
-      /*!_provider!.hasTrays ? _provider!.controller.positionNotifier.shouldShowView.value = false :*/ Navigator.of(context).pop();
+      /*!_provider!.hasTrays ? _provider!.controller.positionNotifier.shouldShowView.value = false :*/ Navigator.of(
+              context)
+          .pop();
     }
   }
 
@@ -193,7 +198,7 @@ class ContentViewState extends State<ContentView> with AutomaticKeepAliveClientM
                         FadeTransition(
                           opacity: _provider!.controller.opacityController,
                           child: Padding(
-                            padding: getBottomPadding(context),
+                            padding: getBottomPadding(context).copyWith(top: Platform.isIOS ? 70 : 40),
                             child: Stack(
                               fit: StackFit.expand,
                               children: _getComponents(content),
@@ -205,22 +210,27 @@ class ContentViewState extends State<ContentView> with AutomaticKeepAliveClientM
                   },
                 ),
               ),
-              ValueListenableBuilder(
-                valueListenable: _provider!.positionNotifier,
-                builder: (context, value, child) {
-                  return value == widget.storyIndex
-                      ? StoryIndicator(
-                          activeIndicatorIndex: _pageController!.page?.toInt() ?? _pageController!.initialPage.toInt(),
-                          count: widget.story.contentCount,
-                          controller: _provider!.controller.flowManager.indicatorController,
-                          style: _provider!.style.indicatorStyle,
-                        )
-                      : StoryIndicator.placeholder(
-                          count: widget.story.contentCount,
-                          style: _provider!.style.indicatorStyle,
-                        );
-                },
-              ),
+              Positioned(
+                  top: Platform.isIOS ? 80 : 50,
+                  left: 0,
+                  right: 0,
+                  child: ValueListenableBuilder(
+                    valueListenable: _provider!.positionNotifier,
+                    builder: (context, value, child) {
+                      return value == widget.storyIndex
+                          ? StoryIndicator(
+                              activeIndicatorIndex:
+                                  _pageController!.page?.toInt() ?? _pageController!.initialPage.toInt(),
+                              count: widget.story.contentCount,
+                              controller: _provider!.controller.flowManager.indicatorController,
+                              style: _provider!.style.indicatorStyle,
+                            )
+                          : StoryIndicator.placeholder(
+                              count: widget.story.contentCount,
+                              style: _provider!.style.indicatorStyle,
+                            );
+                    },
+                  )),
             ],
           ),
         ),
