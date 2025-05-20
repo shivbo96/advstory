@@ -22,8 +22,8 @@ class ContentView extends StatefulWidget {
   const ContentView({
     required this.storyIndex,
     required this.story,
-    Key? key,
-  }) : super(key: key);
+    super.key,
+  });
 
   /// Index of the story in the story list.
   final int storyIndex;
@@ -171,67 +171,70 @@ class ContentViewState extends State<ContentView> with AutomaticKeepAliveClientM
       backgroundColor: _provider!.style.backgroundColor,
       key: scaffoldKey,
       resizeToAvoidBottomInset: false,
-      body: Center(
-        child: AspectRatio(
-          aspectRatio: _provider!.style.aspectRatio,
-          child: Stack(
-            children: [
-              GestureDetector(
-                behavior: HitTestBehavior.deferToChild,
-                onLongPressDown: _handleDownPress,
-                onLongPressCancel: _provider!.controller.resume,
-                onLongPressUp: _provider!.controller.resume,
-                onLongPress: _provider!.controller.exactPause,
-                onTapUp: _handleTapUp,
-                onVerticalDragEnd: onVerticalDrag,
-                child: PageView.builder(
-                  allowImplicitScrolling: _provider!.preloadContent,
-                  controller: _pageController,
-                  itemCount: widget.story.contentCount,
-                  physics: const NeverScrollableScrollPhysics(),
-                  itemBuilder: (context, index) {
-                    final AdvStoryContent content = widget.story.contentBuilder(index);
-                    log("Built story content $index, widget is ${content.runtimeType}");
-                    return Stack(
-                      children: [
-                        ContentPositionProvider(position: StoryPosition(index, widget.storyIndex), child: content),
-                        FadeTransition(
-                          opacity: _provider!.controller.opacityController,
-                          child: Padding(
-                            padding: getBottomPadding(context).copyWith(top: Platform.isIOS ? 70 : 40),
-                            child: Stack(
-                              fit: StackFit.expand,
-                              children: _getComponents(content),
+      body: SafeArea(
+        top: false,
+        child: Center(
+          child: AspectRatio(
+            aspectRatio: _provider!.style.aspectRatio,
+            child: Stack(
+              children: [
+                GestureDetector(
+                  behavior: HitTestBehavior.deferToChild,
+                  onLongPressDown: _handleDownPress,
+                  onLongPressCancel: _provider!.controller.resume,
+                  onLongPressUp: _provider!.controller.resume,
+                  onLongPress: _provider!.controller.exactPause,
+                  onTapUp: _handleTapUp,
+                  onVerticalDragEnd: onVerticalDrag,
+                  child: PageView.builder(
+                    allowImplicitScrolling: _provider!.preloadContent,
+                    controller: _pageController,
+                    itemCount: widget.story.contentCount,
+                    physics: const NeverScrollableScrollPhysics(),
+                    itemBuilder: (context, index) {
+                      final AdvStoryContent content = widget.story.contentBuilder(index);
+                      log("Built story content $index, widget is ${content.runtimeType}");
+                      return Stack(
+                        children: [
+                          ContentPositionProvider(position: StoryPosition(index, widget.storyIndex), child: content),
+                          FadeTransition(
+                            opacity: _provider!.controller.opacityController,
+                            child: Padding(
+                              padding: getBottomPadding(context).copyWith(top: Platform.isIOS ? 70 : 40),
+                              child: Stack(
+                                fit: StackFit.expand,
+                                children: _getComponents(content),
+                              ),
                             ),
                           ),
-                        ),
-                      ],
-                    );
-                  },
-                ),
-              ),
-              Positioned(
-                  top: Platform.isIOS ? 80 : 50,
-                  left: 0,
-                  right: 0,
-                  child: ValueListenableBuilder(
-                    valueListenable: _provider!.positionNotifier,
-                    builder: (context, value, child) {
-                      return value == widget.storyIndex
-                          ? StoryIndicator(
-                              activeIndicatorIndex:
-                                  _pageController!.page?.toInt() ?? _pageController!.initialPage.toInt(),
-                              count: widget.story.contentCount,
-                              controller: _provider!.controller.flowManager.indicatorController,
-                              style: _provider!.style.indicatorStyle,
-                            )
-                          : StoryIndicator.placeholder(
-                              count: widget.story.contentCount,
-                              style: _provider!.style.indicatorStyle,
-                            );
+                        ],
+                      );
                     },
-                  )),
-            ],
+                  ),
+                ),
+                Positioned(
+                    top: Platform.isIOS ? 80 : 50,
+                    left: 0,
+                    right: 0,
+                    child: ValueListenableBuilder(
+                      valueListenable: _provider!.positionNotifier,
+                      builder: (context, value, child) {
+                        return value == widget.storyIndex
+                            ? StoryIndicator(
+                                activeIndicatorIndex:
+                                    _pageController!.page?.toInt() ?? _pageController!.initialPage.toInt(),
+                                count: widget.story.contentCount,
+                                controller: _provider!.controller.flowManager.indicatorController,
+                                style: _provider!.style.indicatorStyle,
+                              )
+                            : StoryIndicator.placeholder(
+                                count: widget.story.contentCount,
+                                style: _provider!.style.indicatorStyle,
+                              );
+                      },
+                    )),
+              ],
+            ),
           ),
         ),
       ),
@@ -247,7 +250,7 @@ class ContentViewState extends State<ContentView> with AutomaticKeepAliveClientM
 
     debugPrint("Bottom padding: $bottomPadding");
 
-    return EdgeInsets.only(bottom: bottomPadding);
+    return EdgeInsets.only(bottom: (bottomPadding + 40));
   }
 
   @override
