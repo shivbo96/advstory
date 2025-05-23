@@ -158,7 +158,6 @@ class ContentViewState extends State<ContentView> with AutomaticKeepAliveClientM
     super.build(context);
 
     return SafeArea(
-      bottom: false,
       child: Scaffold(
         backgroundColor: _provider!.style.backgroundColor,
         key: scaffoldKey,
@@ -244,14 +243,14 @@ class ContentViewState extends State<ContentView> with AutomaticKeepAliveClientM
 
   EdgeInsets getBottomPadding(final BuildContext context) {
     final MediaQueryData mediaQuery = MediaQuery.of(context);
-    final bottomPadding = math.max(mediaQuery.viewInsets.bottom - mediaQuery.viewPadding.bottom, 0.0);
+    final bottomPadding = math.max(mediaQuery.viewInsets.bottom, 0.0);
 
     debugPrint(MediaQuery.of(context).viewInsets.toString());
     debugPrint(MediaQuery.of(context).viewPadding.toString());
 
     debugPrint("Bottom padding: $bottomPadding");
 
-    return EdgeInsets.only(bottom: bottomPadding + (Platform.isIOS ? 40 : 0));
+    return EdgeInsets.only(bottom: bottomPadding);
   }
 
   @override
