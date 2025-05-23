@@ -64,9 +64,7 @@ class _VideoContentState extends StoryContentState<VideoContent> {
 
   Future<bool> _isProbablyPlayable(File file) async {
     try {
-      final List<int> bytes = await file
-          .openRead(0, 12)
-          .first;
+      final List<int> bytes = await file.openRead(0, 12).first;
       final magic = String.fromCharCodes(bytes);
 
       // Check for common video "ftyp" headers

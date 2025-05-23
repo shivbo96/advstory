@@ -75,6 +75,7 @@ class _LoadingIndicatorState extends State<LoadingIndicator> with TickerProvider
           child: SizedBox(
             width: widget.style.size - widget.style.strokeWidth,
             height: widget.style.size - widget.style.strokeWidth,
+            // child: CircularProgressIndicator(valueColor: AlwaysStoppedAnimation<Color>(widget.style.gradientColors.firstOrNull ?? Colors.blue)),
           ),
         ),
       ),

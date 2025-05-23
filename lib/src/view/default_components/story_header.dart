@@ -10,8 +10,8 @@ class StoryHeader extends StatelessWidget {
     required this.url,
     required this.text,
     this.shimmerStyle = const ShimmerStyle(),
-    Key? key,
-  }) : super(key: key);
+    super.key,
+  });
 
   /// Image url for the user profile picture.
   final String url;
