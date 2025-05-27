@@ -24,6 +24,9 @@ enum StoryEvent {
   /// Swiped down to close the story view or has reached to the end of the
   /// stories.
   close,
+
+  /// Story has reached to the end.
+  complete,
 }
 
 /// Status types of a story

@@ -10,8 +10,8 @@ import 'package:flutter/material.dart';
 class DataProvider extends InheritedWidget {
   /// Creates data provider.
   const DataProvider({
-    Key? key,
-    required Widget child,
+    super.key,
+    required super.child,
     required this.controller,
     required this.style,
     required this.buildHelper,
@@ -19,7 +19,7 @@ class DataProvider extends InheritedWidget {
     required this.preloadStory,
     this.hasTrays = true,
     this.firstContentPreperation,
-  }) : super(key: key, child: child);
+  });
 
   /// Used to determine if AdvStory widget created for only player or not.
   final bool hasTrays;

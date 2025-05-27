@@ -9,8 +9,8 @@ class Shimmer extends StatelessWidget {
   /// Creates a shimmer loading screen.
   const Shimmer({
     required this.style,
-    Key? key,
-  }) : super(key: key);
+    super.key,
+  });
 
   /// Style for the shimmer effect.
   final ShimmerStyle style;

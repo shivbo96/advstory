@@ -27,8 +27,8 @@ class TrayView extends StatefulWidget {
     this.shrinkWrap,
     this.onTapTray,
     this.onLongPressTray,
-    Key? key,
-  }) : super(key: key);
+    super.key,
+  });
 
   /// Helper for story builds.
   final BuildHelper buildHelper;

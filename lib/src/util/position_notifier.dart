@@ -3,14 +3,14 @@ import 'dart:async';
 import 'package:advstory/advstory.dart';
 import 'package:flutter/foundation.dart';
 import 'package:advstory/src/contants/enums.dart';
+import 'package:flutter/material.dart';
 
 /// This class provides information about story view position, story status and
 /// tray animation status to the contents. Contents listens this to set their
 /// state.
 ///
 /// [AdvStoryController] updates position and status to notify contents.
-class PositionNotifier extends ChangeNotifier
-    implements StoryPosition, ValueListenable {
+class PositionNotifier extends ChangeNotifier implements StoryPosition, ValueListenable {
   /// Story view opening position.
   StoryPosition initialPosition = StoryPosition(0, 0);
 
@@ -32,7 +32,6 @@ class PositionNotifier extends ChangeNotifier
   /// Updates any [PositionNotifier] variable and calls listeners.
   void update({int? content, int? story, StoryStatus? status}) {
     bool isChanged = false;
-
     if (content != null && content != _content) {
       _content = content;
       status = StoryStatus.play;
@@ -74,10 +73,7 @@ class PositionNotifier extends ChangeNotifier
   int get story => _story;
 
   @override
-  bool operator ==(Object other) =>
-      other is StoryPosition &&
-      content == other.content &&
-      story == other.story;
+  bool operator ==(Object other) => other is StoryPosition && content == other.content && story == other.story;
 
   @override
   int get hashCode => Object.hash(content, story);

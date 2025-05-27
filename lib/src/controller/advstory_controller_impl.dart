@@ -54,8 +54,7 @@ class AdvStoryControllerImpl implements AdvStoryController {
 
   /// Active content pageview controller. This controller lets to skip next and
   /// previous content.
-  ExtendedPageController? get contentController =>
-      _contentControllers[storyIndex];
+  ExtendedPageController? get contentController => _contentControllers[storyIndex];
 
   /// Keeps controllers until related content is removed from widget tree.
   final _contentControllers = <int, ExtendedPageController>{};
@@ -245,13 +244,14 @@ class AdvStoryControllerImpl implements AdvStoryController {
 
       if (interception != null) {
         interception();
-
         return;
       }
     }
-
+    if (storyIndex == (storyCount - 1)) {
+      notifyListeners(StoryEvent.complete);
+      return;
+    }
     flowManager.reset();
-
     storyController!.nextPage(
       duration: Duration(milliseconds: ms),
       curve: Curves.linearToEaseOut,
@@ -297,15 +297,13 @@ class AdvStoryControllerImpl implements AdvStoryController {
   }
 
   @override
-  void setInterceptor(Interceptor interceptor) =>
-      this.interceptor = interceptor;
+  void setInterceptor(Interceptor interceptor) => this.interceptor = interceptor;
 
   @override
   void removeInterceptor() => interceptor = null;
 
   @override
-  void setTrayTapInterceptor(TrayTapInterceptor interceptor) =>
-      trayTapInterceptor = interceptor;
+  void setTrayTapInterceptor(TrayTapInterceptor interceptor) => trayTapInterceptor = interceptor;
 
   @override
   void removeTrayTapInterceptor() => trayTapInterceptor = null;
@@ -424,9 +422,7 @@ class AdvStoryControllerImpl implements AdvStoryController {
       gesturesDisabled.value = false;
     }
 
-    final event = positionNotifier.content < contentIndex
-        ? StoryEvent.nextStory
-        : StoryEvent.previousStory;
+    final event = positionNotifier.content < contentIndex ? StoryEvent.nextStory : StoryEvent.previousStory;
 
     positionNotifier.update(content: contentIndex, story: storyIndex);
     notifyListeners(event);
@@ -451,7 +447,7 @@ class AdvStoryControllerImpl implements AdvStoryController {
     int? storyIndex,
     int? contentIndex,
   }) {
-    if (event == StoryEvent.close) {
+    if (event == StoryEvent.close || event == StoryEvent.complete) {
       _reset();
     }
 

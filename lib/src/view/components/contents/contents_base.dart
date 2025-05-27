@@ -23,7 +23,7 @@ const _excMessage = 'AdvStory fields didn\'t set yet, '
 /// of this class.
 abstract class AdvStoryContent extends Widget {
   /// Constructor of [AdvStoryContent].
-  const AdvStoryContent({Key? key}) : super(key: key);
+  const AdvStoryContent({super.key});
 }
 
 /// Base class for story contents. Advanced story types should extend this class
@@ -33,7 +33,7 @@ abstract class StoryContent extends StatefulWidget implements AdvStoryContent {
   /// useful methods to handle story events and loading, caching media and must
   /// returned from [createState]. [ImageContent] and [VideoContent] types
   /// extends this class.
-  const StoryContent({Key? key}) : super(key: key);
+  const StoryContent({super.key});
 
   @override
   StoryContentState<StoryContent> createState();
@@ -343,8 +343,8 @@ abstract class ManagedContent extends StoryContent {
     this.errorBuiler,
     this.onHeaderTap,
     this.onFooterTap,
-    Key? key,
-  }) : super(key: key);
+    super.key,
+  });
 
   /// Media source url.
   final String url;

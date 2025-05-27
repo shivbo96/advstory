@@ -41,9 +41,7 @@ class StoryIndicator extends StatelessWidget {
   final List<Widget> _indicators = [];
 
   void _generateIndicators() {
-    final animation = controller != null
-        ? Tween<double>(begin: 0.0, end: 1.0).animate(controller!)
-        : null;
+    final animation = controller != null ? Tween<double>(begin: 0.0, end: 1.0).animate(controller!) : null;
     if (_indicators.isNotEmpty) return;
 
     final indicators = List<Widget>.generate(

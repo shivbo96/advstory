@@ -1,5 +1,4 @@
 import 'dart:developer';
-import 'dart:io';
 import 'dart:math' as math;
 import 'dart:ui';
 
@@ -142,14 +141,12 @@ class ContentViewState extends State<ContentView> with AutomaticKeepAliveClientM
       return;
     }
 
-    final interception = _provider!.controller.interceptor?.call(
-      StoryEvent.close,
-    );
+    final interception = _provider!.controller.interceptor?.call(StoryEvent.close);
 
     if (interception != null) {
       interception();
     } else {
-      /*!_provider!.hasTrays ? _provider!.controller.positionNotifier.shouldShowView.value = false :*/ Navigator.of(context).pop();
+      !_provider!.hasTrays ? _provider!.controller.positionNotifier.shouldShowView.value = false : Navigator.of(context).pop();
     }
   }
 

@@ -68,19 +68,6 @@ class BuildHelper {
     stories[index] = await storyBuilder!.call(index);
   }
 
-  /// Fetches media file from the internet and caches it to local storage.
-  // Future<File> getMediaFile({
-  //   required String url,
-  //   Map<String, String>? requestHeaders,
-  //   String? cacheKey,
-  // }) {
-  //   return DefaultCacheManager().getSingleFile(
-  //     url,
-  //     key: cacheKey ?? url,
-  //     headers: requestHeaders,
-  //   );
-  // }
-
   Future<File> getMediaFile({
     required String url,
     Map<String, String>? requestHeaders,

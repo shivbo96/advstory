@@ -15,7 +15,7 @@ import 'package:flutter/material.dart';
 /// When a tray should animate, [AdvStory] calls `startAnimation` method.
 /// When a tray should stop animating, [AdvStory] calls `stopAnimation` method.
 abstract class AnimatedTray extends StatefulWidget {
-  const AnimatedTray({Key? key}) : super(key: key);
+  const AnimatedTray({super.key});
 
   @override
   AnimatedTrayState createState();

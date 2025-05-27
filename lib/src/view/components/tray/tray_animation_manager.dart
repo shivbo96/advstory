@@ -9,9 +9,9 @@ import 'package:flutter/material.dart';
 class TrayAnimationManager extends InheritedWidget {
   /// Creates animation manager.
   TrayAnimationManager({
-    required Widget child,
-    Key? key,
-  }) : super(child: child, key: key);
+    required super.child,
+    super.key,
+  });
 
   /// Keeps listeners for animation start and stop.
   final _listeners = <int, AnimationNotifierCallback>{};

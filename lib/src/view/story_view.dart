@@ -9,7 +9,7 @@ import 'package:flutter/services.dart';
 /// Creates a content group view.
 class StoryView extends StatefulWidget {
   /// Creates a widget to managing [Story] skips using [PageView].
-  const StoryView({Key? key}) : super(key: key);
+  const StoryView({super.key});
 
   @override
   State<StoryView> createState() => _StoryViewState();
@@ -125,10 +125,16 @@ class _StoryViewState extends State<StoryView> {
     if (!_hasInterceptorCalled) _callInterceptor(delta);
 
     if (_interception == null) {
+      // Prevent left scroll on last story
+      if (pageCont.page!.round() == (cont.storyCount - 1) && delta < -0.5) {
+        // Navigator.of(context).canPop() ? Navigator.of(context).pop() : null;
+        // if (Navigator.of(context).canPop()) return;
+        cont.resume();
+        return;
+      }
       // Prevent right scroll on first story
       if (pageCont.page!.round() == 0 && delta > 0) {
         cont.resume();
-
         return;
       }
 

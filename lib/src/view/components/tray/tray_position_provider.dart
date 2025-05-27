@@ -6,10 +6,10 @@ class TrayPositionProvider extends InheritedWidget {
   /// Creates `TrayPositionProvider` instance. [index] keeps [AnimatedTray]
   /// position.
   const TrayPositionProvider({
-    required Widget child,
+    required super.child,
     required this.index,
-    Key? key,
-  }) : super(child: child, key: key);
+    super.key,
+  });
 
   final int index;
 
