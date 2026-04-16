@@ -189,6 +189,7 @@ class ContentViewState extends State<ContentView> with AutomaticKeepAliveClientM
                                     fit: BoxFit.cover,
                                     child: SizedBox(
                                         width: MediaQuery.sizeOf(context).width,
+                                        height: MediaQuery.sizeOf(context).height,
                                         child: ContentPositionProvider(position: StoryPosition(index, widget.storyIndex), child: content)))),
                             FadeTransition(
                               opacity: _provider!.controller.opacityController,
